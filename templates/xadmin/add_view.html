@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/static/css/bootstrap.css">
+    <script src="/static/js/bootstrap.js"></script>
+    <script src="/static/js/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+<h3 style="font-style: italic; display: inline">Add</h3>
+
+{% include 'xadmin/base.html' %}
+
+
+<script>
+    $(function () {
+        $("input, select").addClass("form-control")
+    })
+</script>
+<script>
+    function pop_response(element_id, pk, text){
+        var new_child = $("<option></option>").text(text).val(pk).attr("selected","selected")
+        $("#" + element_id).append(new_child)
+    }
+</script>
+</body>
+</html>

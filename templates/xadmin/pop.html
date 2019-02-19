@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    {#这里是弹出窗口的后续处理窗口#}
+    {#调用父窗口的处理函数#}
+    window.opener.pop_response("{{ element_id }}", "{{ pk }}", "{{ text }}")
+    window.close()
+</script>
+</body>
+</html>

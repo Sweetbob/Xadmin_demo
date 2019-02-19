@@ -1,0 +1,29 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 offset-3">
+            <form style="" action="" method="post">
+                {% csrf_token %}
+                {% for field in model_form %}
+                    <!-- 父div加了relative后，子div的absolute就相对与父div的位置进行相对位移 -->
+                    <div style="position: relative">
+                        {{ field.label }}
+                        {{ field }}
+                        {% if field.is_pop %}
+                            <!-- 给+绑定点击事件函数，pop -->
+                        <div style="position: absolute;right: -30px;top: 25px;"><span class="h4"><a onclick="pop('{{ field.url }}')" href="">+</a></span>
+                        </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+                <input class="btn-primary" type="submit">
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    function pop(url) {
+        {#+ 的点击事件， 打开一个新的窗口，新窗口为对应的字段的模型的添加页面#}
+        window.open(url, "", "width=600,height=300")
+    }
+</script>

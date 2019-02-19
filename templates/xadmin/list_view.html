@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/static/css/bootstrap.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+            integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+            integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+            crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <!-- 左边数据部分 -->
+        <div class="col-md-8">
+            <h3 style="font-style: italic; display: inline">Data Preview</h3>
+            <div class="float-right mt-1 mr-3">
+                <!-- 搜索框 -->
+                {% if self.search_field_list %}
+                    <form action="" method="get">
+                        <input type="text" value="{{ query_keyword }}" name="query_keyword">
+                        <button>Search</button>
+                    </form>
+                {% endif %}
+            </div>
+
+            <!-- Action 需要包含整个下面的checkbox-->
+            <div class="mt-3">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <h5 style="display: inline">Action</h5>
+                    <select name="action_name" class="" style="width: 200px; padding: 5px" id="action_function_name">
+                        <option>---------------------------</option>
+                        {% for action in self.get_action_info_list %}
+                            <option value="{{ action.func_name }}">{{ action.func_desc }}</option>
+                        {% endfor %}
+
+                    </select>
+                    <button type="submit" class="btn-info btn">GO</button>
+
+                    <a href="{{ add_url }}" class="btn btn-info float-right mr-4">Add</a>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            {#        在temple中调用函数不用加括号#}
+                            {% for field in show_case.get_header_list %}
+                                <th>{{ field }}</th>
+                            {% endfor %}
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for book_obj in show_case.get_body_list %}
+                            <tr>
+                                <th scope="row">{{ forloop.counter }}</th>
+                                {% for field in book_obj %}
+                                    <td>{{ field }}</td>
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </form>
+            </div>
+
+            <nav aria-label="Page navigation example">
+                <ul class="pagination float-right mr-5">
+                    {{ show_case.pagination.page_html|safe }}
+                </ul>
+            </nav>
+        </div>
+        <!-- 右边过滤器 -->
+        <div class="col-md-4 mt-5 bg-light text-dark" style="padding-left: 50px">
+            {% for by_name, a_links in show_case.get_filter_list.items %}
+                <span class="font-italic font-weight-bold">By {{ by_name }}</span><br><br>
+                {% for a_link in a_links %}
+                    {{ a_link|safe }}<br>
+                {% endfor %}
+
+            {% endfor %}
+        </div>
+    </div>
+</div>
+<script>
+    $("#check_box_father").click(function () {
+        if ($(this).prop("checked")) {
+            $(".check_box_son").prop("checked", true)
+        } else {
+            $(".check_box_son").prop("checked", false)
+        }
+    })
+
+</script>
+
+</body>
+</html>
